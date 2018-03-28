@@ -481,7 +481,8 @@ def disk_partition_usage(all=False):
 
         salt '*' ps.disk_partition_usage
     '''
-    result = disk_partitions(all)
+    result = [partition for partition in disk_partitions(all)
+              if 'cdrom' not in partition['opts']]
     for partition in result:
         partition.update(disk_usage(partition['mountpoint']))
     return result
